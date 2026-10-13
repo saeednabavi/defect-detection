@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>تشخیص عیب سطح</title>
+  <style>
+    body { font-family: sans-serif; max-width: 36rem; margin: 2rem auto; line-height: 1.6; }
+    .card { border: 1px solid #ccc; padding: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>تشخیص عیب سطح</h1>
+  <p>تصویر خاکستری سطح را بفرستید. سرویس برچسب سالم یا معیوب، اطمینان، و زمان پاسخ را برمی‌گرداند.</p>
+  <form action="/predict" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" accept="image/*" required />
+    <button type="submit">بررسی</button>
+  </form>
+  {% if result %}
+  <div class="card">
+    {% if result.error %}
+      <p>{{ result.error }}</p>
+    {% else %}
+      <p>نتیجه: <strong>{{ result.label }}</strong></p>
+      <p>اطمینان: {{ "%.2f"|format(result.confidence) }}</p>
+      <p>زمان پاسخ: {{ "%.1f"|format(result.latency_ms) }} میلی‌ثانیه</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</body>
+</html>
